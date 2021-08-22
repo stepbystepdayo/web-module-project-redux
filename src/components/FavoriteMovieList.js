@@ -1,6 +1,8 @@
+import { id } from "postcss-selector-parser";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { removeFav } from "../actions/favoriteActions";
 
 const FavoriteMovieList = (props) => {
   const favorites = props.favorites;
@@ -17,7 +19,14 @@ const FavoriteMovieList = (props) => {
             >
               {movie.title}
               <span>
-                <span class="material-icons">remove_circle</span>
+                <span
+                  onClick={() => {
+                    props.removeFav(movie.id);
+                  }}
+                  class="material-icons"
+                >
+                  remove_circle
+                </span>
               </span>
             </Link>
           </div>
@@ -29,9 +38,9 @@ const FavoriteMovieList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    favorites: state.favoriteReducers.favorites,
-    displayFavorites: state.favoriteReducers.displayFavorites,
+    favorites: state.favoriteReducer.favorites,
+    displayFavorites: state.favoriteReducer.displayFavorites,
   };
 };
 
-export default connect(mapStateToProps, {})(FavoriteMovieList);
+export default connect(mapStateToProps, { removeFav })(FavoriteMovieList);
